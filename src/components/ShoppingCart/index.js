@@ -87,6 +87,7 @@ const EditBtn = styled.span`
 const RemoveBtn = styled.span`
     border-right: 1px solid gainsboro;
     padding: 0 7px;
+    cursor: pointer;
 `;
 
 const SaveBtn = styled.span`
@@ -235,9 +236,9 @@ class ShoppingCart extends React.Component {
         })
     }
 
-    changeQty = (e, name) => {
+    changeQty = (value, name) => {
         const { data } = this.state;
-        const newQty = e.target.value;
+        const newQty = value;
         if(newQty >= 0) {
             data.productsDetails.forEach((a, index) => {
                 if(a.productName === name) {
@@ -254,6 +255,12 @@ class ShoppingCart extends React.Component {
             });
         }
         
+     }
+
+     removeItem = (e, name) => {
+        const ref= e.target.closest('tr').children[2].children[0];
+        ref.value = 0
+        this.changeQty(0, name);
      }
 
     render() {
@@ -284,7 +291,7 @@ class ShoppingCart extends React.Component {
                                             <EditBtn>
                                                 EDIT
                                             </EditBtn>
-                                            <RemoveBtn>
+                                            <RemoveBtn onClick={(e) => this.removeItem(e, item.productName)}>
                                                 X REMOVE
                                             </RemoveBtn>
                                             <SaveBtn>
@@ -296,7 +303,7 @@ class ShoppingCart extends React.Component {
                             </td>
                             <Size>S</Size>
                             <Qty>
-                                <input type='number' value={item.qty} onChange={(e) => this.changeQty(e, item.productName)} />
+                                <input type='number' value={item.qty} onChange={(e) => this.changeQty(e.target.value, item.productName)} />
                             </Qty>
                             <td><sup>$</sup>{item.productPrice}</td>
                         </tr>
