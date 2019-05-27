@@ -204,8 +204,6 @@ class ShoppingCart extends React.Component {
     getSubtotal() {
         const { data } = this.state
         let subTotal = 0;
-
-        debugger
         data.productsDetails.forEach((a) => {
             a.productPrice = a.productPrice;
             subTotal = subTotal + a.productPrice;
